@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Weather Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        <header>
+            <button id="liveLocationBtn" title="Get Current Location Weather">
+                <i class="fas fa-location-arrow"></i>
+            </button>
+            
+            <div class="search-bar">
+                <input id="searchCity" type="text" placeholder="Search City">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="left-column">
+                <div class="card main-weather-card">
+                    <h3 id="cityName">Loading...</h3>
+                    <img id="mainWeatherIcon" src="animated/cloudy-1-day.svg" alt="Weather Icon" class="main-icon"> 
+                    <div class="temp-display">
+                        <span id="temperature">--°C</span>
+                    </div>
+                    <p id="weatherCondition">Fetching weather...</p>
+                    <div class="datetime">
+                        <p><i class="far fa-calendar-alt"></i> <span id="currentDate">--</span></p>
+                        <p><i class="far fa-clock"></i> <span id="currentTime">--</span></p>
+                    </div>
+                </div>
+
+                <div class="card forecast-card">
+                    <h3>Coming 5 Days</h3>
+                    <div class="forecast-list" id="forecast">
+                        </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="detail-grid">
+                    <div class="card detail-tile">
+                        <i class="fas fa-wind icon-md"></i>
+                        <p>Pressure</p>
+                        <div id="pressureValue">-- hPa</div>
+                    </div>
+                    <div class="card detail-tile">
+                        <i class="fas fa-tint icon-md"></i>
+                        <p>Humidity</p>
+                        <div id="humidityValue">--%</div>
+                    </div>
+                    <div class="card detail-tile">
+                        <i class="fas fa-tachometer-alt icon-md"></i>
+                        <p>Wind Speed</p>
+                        <div id="windValue">-- km/h</div>
+                    </div>
+                    <div class="card detail-tile">
+                        <i class="fas fa-compress-arrows-alt icon-md"></i>
+                        <p>Feels Like</p>
+                        <div id="feelsLikeValue">--°C</div>
+                    </div>
+                </div>
+
+                <div class="card aqi-card">
+                    <h3>Air Quality Index (AQI)</h3>
+                    <div class="aqi-details">
+                        <div class="aqi-item">PM25<br><span>--</span></div>
+                        <div class="aqi-item">SO2<br><span>--</span></div>
+                        <div class="aqi-item">NO2<br><span>--</span></div>
+                        <div class="aqi-item">O3<br><span>--</span></div>
+                    </div>
+                </div>
+
+                <div class="card sun-card">
+                    <h3>Sunrise & Sunset</h3>
+                    <div class="sun-details">
+                        <div class="sun-item">
+                            <i class="far fa-sun icon-lg"></i>
+                            <p>Sunrise</p>
+                            <span id="sunriseTime">--</span>
+                        </div>
+                        <div class="sun-item">
+                            <i class="far fa-moon icon-lg"></i>
+                            <p>Sunset</p>
+                            <span id="sunsetTime">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card hourly-forecast-card">
+                    <h3>Today</h3>
+                    <div class="hourly-scroll-container" id="hourlyContainer">
+                        </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
