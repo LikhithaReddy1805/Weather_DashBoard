@@ -1,4 +1,4 @@
-const apiKey = "REMOVED_KEY"; // Your OpenWeatherMap API key
+const apiKey = ""; // Your OpenWeatherMap API key
 
 // ---------------------------------------------------------------------
 // --- Helper Functions for Formatting ---
