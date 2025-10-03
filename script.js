@@ -1,8 +1,6 @@
 const apiKey = "REMOVED_KEY"; // Your OpenWeatherMap API key
 
-// ---------------------------------------------------------------------
-// --- Helper Functions for Formatting ---
-// ---------------------------------------------------------------------
+
 function formatSunTime(timestamp) {
     const date = new Date(timestamp * 1000);
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
@@ -22,9 +20,7 @@ function capitalizeWords(text) {
     return text.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 }
 
-// ---------------------------------------------------------------------
-// --- Map to your `animated/` SVG set ---
-// ---------------------------------------------------------------------
+
 function getLocalIconPath(iconCode = '', weatherId = 0) {
     const base = 'animated/';
     const isDay = iconCode.endsWith('d');
@@ -81,9 +77,7 @@ function getLocalIconPath(iconCode = '', weatherId = 0) {
 }
 
 
-// ---------------------------------------------------------------------
-// --- Update UI functions ---
-// ---------------------------------------------------------------------
+
 function updateWeatherUI(data) {
     if (!data || !data.main) return;
     document.getElementById("cityName").innerText = `${data.name || '--'}, ${data.sys?.country || ''}`;
@@ -113,13 +107,13 @@ function updateForecastUI(data) {
         return;
     }
 
-    // Logic to select 5 days, prioritizing 12:00:00 entry
+    
     const list = data.list;
     let daily = [];
     for (let i = 0; i < list.length && daily.length < 5; i++) {
         if (list[i].dt_txt.includes("12:00:00")) daily.push(list[i]);
     }
-    // Fallback if needed
+    
     if (daily.length < 5) {
         daily = [];
         for (let i = 0; i < list.length && daily.length < 5; i += 8) {
@@ -149,7 +143,7 @@ function updateHourlyUI(data) {
     if (!data || !data.list) return;
     const hourlyContainer = document.getElementById("hourlyContainer");
     
-    // Take the next 8 forecast items (approx 24 hours in 3-hour steps)
+    
     const items = data.list.slice(0, 8);
     let html = "";
     
@@ -169,7 +163,7 @@ function updateHourlyUI(data) {
     hourlyContainer.innerHTML = html;
 }
 
-// NEW: Function to fetch Air Quality Index
+
 async function fetchAQI(lat, lon) {
     const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`;
     try {
@@ -191,9 +185,7 @@ async function fetchAQI(lat, lon) {
     }
 }
 
-// ---------------------------------------------------------------------
-// --- Fetch & Wiring (Unified Functions) ---
-// ---------------------------------------------------------------------
+
 async function fetchWeatherAndForecast(city) {
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`;
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`;
@@ -239,9 +231,7 @@ async function fetchWeatherAndForecastByCoords(lat, lon) {
     }
 }
 
-// ---------------------------------------------------------------------
-// --- Search & Event Listeners ---
-// ---------------------------------------------------------------------
+
 const searchHandler = () => {
     let city = document.getElementById("searchCity").value;
     if (city.trim() !== "") {
@@ -254,15 +244,13 @@ document.getElementById("searchCity").addEventListener("keypress", function (e) 
 });
 document.getElementById("searchBtn").addEventListener("click", searchHandler);
 
-// ---------------------------------------------------------------------
-// --- Geolocation (On-Demand & Initial Load) ---
-// ---------------------------------------------------------------------
+
 const defaultCity = "Bengaluru"; 
 
 const handleGeolocation = () => {
     const geoBtn = document.getElementById("liveLocationBtn");
     
-    // Set loading state and disable button during fetch
+   
     if (geoBtn) {
         geoBtn.disabled = true;
         geoBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; 
@@ -276,7 +264,7 @@ const handleGeolocation = () => {
             
             await fetchWeatherAndForecastByCoords(lat, lon);
 
-            // Reverse Geocoding to get the user-friendly city name
+           
             try {
                  const geoUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
                  const res = await fetch(geoUrl);
@@ -289,7 +277,7 @@ const handleGeolocation = () => {
                 console.error("Reverse Geocoding failed:", e);
             }
             
-            // Re-enable button and reset icon
+            
             if (geoBtn) {
                 geoBtn.disabled = false;
                 geoBtn.innerHTML = '<i class="fas fa-location-arrow"></i>';
@@ -298,7 +286,7 @@ const handleGeolocation = () => {
         }, (error) => {
             console.warn("⚠️ Geolocation denied or failed:", error);
             fetchWeatherAndForecast(defaultCity);
-            // Re-enable button and reset icon on failure
+           
             if (geoBtn) {
                 geoBtn.disabled = false;
                 geoBtn.innerHTML = '<i class="fas fa-location-arrow"></i>';
@@ -307,7 +295,7 @@ const handleGeolocation = () => {
     } else {
         console.warn("⚠️ Geolocation not supported on this browser.");
         fetchWeatherAndForecast(defaultCity);
-        // Re-enable button and reset icon on failure
+        
         if (geoBtn) {
             geoBtn.disabled = false;
             geoBtn.innerHTML = '<i class="fas fa-location-arrow"></i>';
